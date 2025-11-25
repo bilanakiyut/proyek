@@ -33,73 +33,82 @@ class ScorePage extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text("Hasil Quiz"),
-        backgroundColor: Colors.teal,
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Lottie.asset(
-              "assets/lottie/reward.json", 
-              height: 180,
-              repeat: false,
-            ),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: 450,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Lottie.asset(
+                  "assets/lottie/reward.json",
+                  height: 180,
+                  repeat: false,
+                ),
 
-            const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-            Text(
-              quizType == "type2"
-                  ? "Hasil Quiz: Conditional Type 2"
-                  : quizType == "type3"
-                      ? "Hasil Quiz: Conditional Type 3"
-                      : "Hasil Quiz: Mixed Questions",
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: 20),
-
-            Text(
-              "$score / $total",
-              style: const TextStyle(
-                fontSize: 42,
-                fontWeight: FontWeight.bold,
-                color: Colors.teal,
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 18),
-            ),
-
-            const Spacer(),
-
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const HomePage(),
+                Text(
+                  quizType == "type2"
+                      ? "Hasil Quiz: Conditional Type 2"
+                      : quizType == "type3"
+                          ? "Hasil Quiz: Conditional Type 3"
+                          : "Hasil Quiz: Mixed Questions",
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
                   ),
-                );
-              },
-              icon: const Icon(Icons.home),
-              label: const Text("Kembali ke Beranda"),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 24, vertical: 12),
-              ),
-            )
-          ],
+                  textAlign: TextAlign.center,
+                ),
+
+                const SizedBox(height: 20),
+
+                Text(
+                  "$score / $total",
+                  style: TextStyle(
+                    fontSize: 42,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 18),
+                ),
+
+                const Spacer(),
+
+                ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const HomePage(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.home),
+                  label: const Text("Kembali ke Beranda"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 12,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
