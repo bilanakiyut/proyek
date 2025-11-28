@@ -22,8 +22,7 @@ class _QuizPageState extends State<QuizPage> {
   late final List<Question> _questions;
   int _currentIndex = 0;
   int _score = 0;
-  int? selectedIndex; 
-
+  int? selectedIndex;
   Map<String, String> _selectedMatches = {};
 
   @override
@@ -32,9 +31,6 @@ class _QuizPageState extends State<QuizPage> {
     _questions = widget.questions;
   }
 
-  // ==========================
-  //        ALERT BAGUS
-  // ==========================
   void _showAlert(bool isCorrect, {String? correctText}) {
     showDialog(
       context: context,
@@ -42,50 +38,52 @@ class _QuizPageState extends State<QuizPage> {
       builder: (_) => Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
         child: Padding(
-          padding: const EdgeInsets.all(25),
+          padding: const EdgeInsets.all(24),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
-                isCorrect ? Icons.check_circle : Icons.cancel,
+                isCorrect ? Icons.check_circle_outline : Icons.cancel_outlined,
                 size: 70,
-                color: isCorrect ? Colors.green : Colors.red,
+                color: isCorrect ? Colors.green.shade600 : Colors.red.shade600,
               ),
               const SizedBox(height: 16),
-
               Text(
                 isCorrect ? "Jawaban Kamu Benar!" : "Jawaban Masih Salah",
                 style: GoogleFonts.poppins(
                   fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w700,
                 ),
                 textAlign: TextAlign.center,
               ),
-
               if (!isCorrect && correctText != null) ...[
-                const SizedBox(height: 10),
+                const SizedBox(height: 12),
                 Text(
                   "Jawaban yang benar:\n$correctText",
-                  style: GoogleFonts.poppins(fontSize: 16),
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    color: Colors.grey.shade800,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ],
-
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
                   _nextQuestion();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.teal,
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 12, horizontal: 22),
+                  backgroundColor: Colors.teal.shade700,
+                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 28),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(14),
                   ),
                 ),
-                child: const Text("Lanjut"),
+                child: Text(
+                  "Lanjut",
+                  style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
               )
             ],
           ),
@@ -94,9 +92,6 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  // ==========================
-  //        CEK PILIHAN
-  // ==========================
   void _checkChoice(String answer) {
     final q = _questions[_currentIndex];
     bool correct =
@@ -107,9 +102,6 @@ class _QuizPageState extends State<QuizPage> {
     _showAlert(correct, correctText: q.correct);
   }
 
-  // ==========================
-  //    CEK MATCHING
-  // ==========================
   void _checkMatching() {
     final q = _questions[_currentIndex];
     bool correct = true;
@@ -127,15 +119,12 @@ class _QuizPageState extends State<QuizPage> {
     _showAlert(correct, correctText: correctText);
   }
 
-  // ==========================
-  //    NEXT QUESTION
-  // ==========================
   void _nextQuestion() async {
     if (_currentIndex < _questions.length - 1) {
       setState(() {
         _currentIndex++;
-        selectedIndex = null;        // reset pilihan
-        _selectedMatches.clear();     // reset matching
+        selectedIndex = null;
+        _selectedMatches.clear();
       });
       return;
     }
@@ -159,22 +148,10 @@ class _QuizPageState extends State<QuizPage> {
     final q = _questions[_currentIndex];
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
-      toolbarHeight: 70,
-      automaticallyImplyLeading: true,
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.teal.shade700,
-              Colors.teal.shade400,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-      ),
+        toolbarHeight: 70,
+        backgroundColor: Colors.teal.shade600,
         elevation: 8,
         shadowColor: Colors.teal.withOpacity(0.4),
         title: Text(
@@ -186,56 +163,60 @@ class _QuizPageState extends State<QuizPage> {
           ),
         ),
         centerTitle: true,
-        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ==========================
-            //    PROGRESS BAR
-            // ==========================
-            LinearProgressIndicator(
-              value: (_currentIndex + 1) / _questions.length,
-              color: Colors.teal,
-              backgroundColor: Colors.grey[300],
+            // Progress bar
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: LinearProgressIndicator(
+                value: (_currentIndex + 1) / _questions.length,
+                color: Colors.teal.shade600,
+                backgroundColor: Colors.grey.shade300,
+                minHeight: 10,
+              ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 24),
 
-            Text("Soal ${_currentIndex + 1} dari ${_questions.length}",
-                style: GoogleFonts.poppins(fontSize: 15)),
-            const SizedBox(height: 12),
+            // Text Soal
+            Text(
+              "Soal ${_currentIndex + 1} dari ${_questions.length}",
+              style: GoogleFonts.poppins(
+                fontSize: 15,
+                color: Colors.grey.shade700,
+              ),
+            ),
+            const SizedBox(height: 10),
 
-            // ==========================
-            //         KOTAK SOAL
-            // ==========================
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(18),
-              margin: const EdgeInsets.only(bottom: 20),
+              padding: const EdgeInsets.all(20),
+              margin: const EdgeInsets.only(bottom: 24),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.05),
-                    blurRadius: 8,
-                    offset: Offset(0, 3),
+                    blurRadius: 12,
+                    offset: const Offset(0, 6),
                   ),
                 ],
               ),
               child: Text(
                 q.question,
                 style: GoogleFonts.poppins(
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
+                  color: Colors.grey.shade900,
                 ),
               ),
             ),
 
-            // ==========================
-            //     JENIS PILIHAN GANDA
-            // ==========================
+            // Pilihan Ganda
             if (q.type == "choice")
               ...q.options!.asMap().entries.map((entry) {
                 int index = entry.key;
@@ -250,34 +231,36 @@ class _QuizPageState extends State<QuizPage> {
                   },
                   child: Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 16, horizontal: 16),
-                    margin: const EdgeInsets.only(bottom: 12),
+                    padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
+                    margin: const EdgeInsets.only(bottom: 14),
                     decoration: BoxDecoration(
-                      color: isSelected ? Colors.blue.shade100 : Colors.white,
-                      borderRadius: BorderRadius.circular(12),
+                      color: isSelected ? Colors.teal.shade50 : Colors.white,
+                      borderRadius: BorderRadius.circular(14),
                       border: Border.all(
-                        color: isSelected ? Colors.blue : Colors.teal,
+                        color: isSelected ? Colors.teal.shade600 : Colors.grey.shade300,
                         width: isSelected ? 2.5 : 1.5,
                       ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(isSelected ? 0.1 : 0.05),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
                     ),
                     child: Text(
                       opt,
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: isSelected
-                            ? Colors.blue.shade900
-                            : Colors.black87,
+                        fontWeight: FontWeight.w600,
+                        color: isSelected ? Colors.teal.shade800 : Colors.black87,
                       ),
                     ),
                   ),
                 );
               }),
 
-            // ==========================
-            //     MATCHING TYPE
-            // ==========================
+            // Matching
             if (q.type == "matching")
               Expanded(
                 child: Column(
@@ -292,18 +275,33 @@ class _QuizPageState extends State<QuizPage> {
                                   data: left,
                                   feedback: Material(
                                     color: Colors.transparent,
-                                    child: Text(
-                                      left,
-                                      style: const TextStyle(
-                                          fontSize: 18, color: Colors.teal),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.teal.shade100,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Text(
+                                        left,
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 18,
+                                          color: Colors.teal.shade700,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                  child: ListTile(title: Text(left)),
+                                  child: ListTile(
+                                    title: Text(
+                                      left,
+                                      style: GoogleFonts.poppins(fontSize: 16),
+                                    ),
+                                  ),
                                 ),
                               ).toList(),
                             ),
                           ),
-
+                          const SizedBox(width: 12),
                           Expanded(
                             child: ListView(
                               children: q.matchRight!.map(
@@ -320,16 +318,22 @@ class _QuizPageState extends State<QuizPage> {
                                       });
                                     },
                                     builder: (context, _, __) => Container(
-                                      padding: const EdgeInsets.all(12),
-                                      margin: const EdgeInsets.only(bottom: 10),
+                                      padding: const EdgeInsets.all(14),
+                                      margin: const EdgeInsets.only(bottom: 14),
                                       decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.teal),
-                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(color: Colors.teal.shade400),
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: matchedLeft != null ? Colors.teal.shade50 : Colors.white,
                                       ),
                                       child: Text(
                                         matchedLeft == null
                                             ? right
                                             : "$matchedLeft → $right",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 16,
+                                          color: Colors.teal.shade900,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ),
                                   );
@@ -341,19 +345,31 @@ class _QuizPageState extends State<QuizPage> {
                       ),
                     ),
 
+                    const SizedBox(height: 20),
+
                     ElevatedButton(
-                      onPressed: (_selectedMatches.length ==
-                              q.matchLeft!.length)
+                      onPressed: (_selectedMatches.length == q.matchLeft!.length)
                           ? _checkMatching
                           : null,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.teal,
+                        backgroundColor: Colors.teal.shade700,
+                        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 40),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                       ),
-                      child: const Text("Check"),
+                      child: Text(
+                        "Check",
+                        style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ],
                 ),
-              ),
+              )
           ],
         ),
       ),
