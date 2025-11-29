@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ===================== GRID VIEW MATERI ======================
+  //GRID VIEW MATERI
   Widget buildMateriGrid(List<MateriModel> filteredMateri) {
     final List<Color> cardColors = [
       Colors.teal.shade400,
@@ -126,9 +126,9 @@ class _HomePageState extends State<HomePage> {
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(20), // ← UBAH DI SINI untuk border radius lebih besar
+                    borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: Colors.grey.shade300, // ← TAMBAHKAN border
+                      color: Colors.grey.shade300,
                       width: 1.5,
                     ),
                     boxShadow: [
@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage> {
                           gradient: LinearGradient(
                             colors: [Colors.teal.shade400, Colors.cyan.shade500],
                           ),
-                          borderRadius: BorderRadius.circular(14), // ← Border radius untuk icon filter
+                          borderRadius: BorderRadius.circular(14),
                         ),
                         child: const Icon(
                           Icons.tune_rounded,
@@ -357,7 +357,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ==================== QUIZ MENU ====================
+  //QUIZ MENU
   Widget buildQuizMenu() {
     return CustomScrollView(
       slivers: [
@@ -386,7 +386,7 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Quiz Menu 🎯',
+                          'Quiz Menu',
                           style: GoogleFonts.poppins(
                             fontSize: 28,
                             fontWeight: FontWeight.w700,
@@ -590,7 +590,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ====================== BOTTOM NAVBAR ======================
+  //BOTTOM NAVBAR
   Widget buildBottomNavbar() {
     return Container(
       margin: const EdgeInsets.all(16),
