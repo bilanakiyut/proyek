@@ -86,7 +86,7 @@ class _ScoreOverviewPageState extends State<ScoreOverviewPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Riwayat Skor 📊',
+                              'Riwayat Skor',
                               style: GoogleFonts.poppins(
                                 fontSize: 28,
                                 fontWeight: FontWeight.w700,
@@ -256,7 +256,6 @@ class _ScoreOverviewPageState extends State<ScoreOverviewPage> {
     Color startColor,
     Color endColor,
   ) {
-    // Determine grade and message based on score
     String grade = score >= 80
         ? 'Excellent!'
         : score >= 60
@@ -289,7 +288,6 @@ class _ScoreOverviewPageState extends State<ScoreOverviewPage> {
       ),
       child: Column(
         children: [
-          // Top Section with Gradient
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -332,7 +330,6 @@ class _ScoreOverviewPageState extends State<ScoreOverviewPage> {
             ),
           ),
           
-          // Bottom Section with Score
           Container(
             padding: const EdgeInsets.all(20),
             child: Row(
