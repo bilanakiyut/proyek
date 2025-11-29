@@ -100,113 +100,260 @@ class _MateriDetailPageState extends State<MateriDetailPage> {
     final color = widget.color;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(materi.title),
-        backgroundColor: color,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-
-            // ✅ VIDEO DIPERKECIL
-            Container(
-              height: 180, // ➜ ukuran video diperkecil
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: Colors.black,
+      backgroundColor: const Color(0xFFF8F9FE),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 120,
+            floating: false,
+            pinned: true,
+            backgroundColor: color,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text(
+                materi.title,
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: YoutubePlayer(
-                  controller: _controller,
-                  showVideoProgressIndicator: true,
-                  progressIndicatorColor: color,
+              background: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [color, color.withOpacity(0.8)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                 ),
               ),
             ),
-
-            const SizedBox(height: 20),
-
-            Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+            leading: IconButton(
+              icon: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.25),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(Icons.arrow_back, color: Colors.white),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Lesson Goal",
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: color,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      materi.description,
-                      style: GoogleFonts.poppins(fontSize: 14, height: 1.6),
-                    ),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ),
 
-                    if (materi.formula.isNotEmpty) ...[
-                      const SizedBox(height: 16),
-                      Text(
-                        "Formula",
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: color,
+          // CONTENT
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // VIDEO SECTION
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.15),
+                          blurRadius: 20,
+                          offset: const Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: YoutubePlayer(
+                          controller: _controller,
+                          showVideoProgressIndicator: true,
+                          progressIndicatorColor: color,
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      Container(
+                    ),
+                  ),
+
+                  const SizedBox(height: 28),
+
+                  _buildSectionCard(
+                    title: "Lesson Goal",
+                    icon: Icons.flag_rounded,
+                    color: color,
+                    child: Text(
+                      materi.description,
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        height: 1.6,
+                        color: const Color(0xFF2D3748),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // FORMULA
+                  if (materi.formula.isNotEmpty) ...[
+                    _buildSectionCard(
+                      title: "Formula",
+                      icon: Icons.lightbulb_outline_rounded,
+                      color: color,
+                      child: Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: color.withOpacity(0.1),
+                          gradient: LinearGradient(
+                            colors: [
+                              color.withOpacity(0.1),
+                              color.withOpacity(0.05),
+                            ],
+                          ),
                           borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: color.withOpacity(0.3),
+                            width: 1.5,
+                          ),
                         ),
                         child: Text(
                           materi.formula,
-                          style: GoogleFonts.poppins(fontSize: 14),
-                        ),
-                      ),
-                    ],
-
-                    if (materi.examples.isNotEmpty) ...[
-                      const SizedBox(height: 16),
-                      Text(
-                        "Lesson Plan",
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: color,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-
-                      ...materi.examples.map(
-                        (ex) => Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                          child: Text(
-                            "• $ex",
-                            style: GoogleFonts.poppins(fontSize: 14),
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: color,
                           ),
                         ),
                       ),
-                    ]
+                    ),
+                    const SizedBox(height: 16),
                   ],
+
+                  if (materi.examples.isNotEmpty) ...[
+                    _buildSectionCard(
+                      title: "Lesson Plan",
+                      icon: Icons.list_alt_rounded,
+                      color: color,
+                      child: Column(
+                        children: materi.examples.asMap().entries.map(
+                          (entry) {
+                            int idx = entry.key;
+                            String ex = entry.value;
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 4),
+                                    width: 24,
+                                    height: 24,
+                                    decoration: BoxDecoration(
+                                      color: color.withOpacity(0.15),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        '${idx + 1}',
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                          color: color,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Text(
+                                      ex,
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        height: 1.5,
+                                        color: const Color(0xFF2D3748),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ).toList(),
+                      ),
+                    ),
+                  ],
+
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionCard({
+    required String title,
+    required IconData icon,
+    required Color color,
+    required Widget child,
+  }) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.grey.shade200,
+                  width: 1,
                 ),
               ),
             ),
-          ],
-        ),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(
+                    icon,
+                    color: color,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  title,
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF2D3748),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Content
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: child,
+          ),
+        ],
       ),
     );
   }
