@@ -15,16 +15,16 @@ class MyApp extends StatelessWidget {
       title: 'English Quiz',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // ===== WARNA UTAMA & ACCENT =====
+        // warna utama
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.teal,   // warna utama
+          seedColor: Colors.teal, 
           primary: Colors.teal.shade600,
           secondary: Colors.cyan.shade400,
           brightness: Brightness.light,
         ),
         scaffoldBackgroundColor: Colors.grey[100],
 
-        // ===== APPBAR STYLE =====
+        // app bar
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.teal.shade600,
           elevation: 0,
@@ -37,10 +37,9 @@ class MyApp extends StatelessWidget {
           iconTheme: const IconThemeData(color: Colors.white),
         ),
 
-        // ===== TEXT THEME =====
         textTheme: GoogleFonts.poppinsTextTheme(),
         
-        // ===== ELEVATED BUTTON STYLE =====
+        //elevated 
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.teal.shade600,
@@ -52,7 +51,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
 
-        // ===== INPUT DECORATION =====
+        // input decoration
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: Colors.white,
@@ -62,7 +61,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
 
-        // ===== ICON THEME =====
+        // icon
         iconTheme: IconThemeData(
           color: Colors.teal.shade700,
         ),
